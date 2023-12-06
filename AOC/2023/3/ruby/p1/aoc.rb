@@ -6,27 +6,27 @@ class AOC
   end
 
   def run
-    numbers = []
+    sum = 0
     lines(@io) do |pline, cline, nline|
       add = false
-      number = []
+      number = ''
 
       cline.each_char.with_index do |chr, idx|
         if number?(chr)
           number << chr
           add ||= symbol_neaby?(cline, pline, nline, idx)
         end
-        number = [] if !add && dot?(chr)
+        number = '' if !add && dot?(chr)
 
-        if add && (!number?(chr) || cline.size - 1 == idx)
-          numbers << number.join.to_i
+        if add && (!number?(chr) || !cline[idx + 1])
+          sum += number.to_i
           add = false
-          number = []
+          number = ''
         end
       end
     end
 
-    numbers.sum
+    sum
   end
 
   private
